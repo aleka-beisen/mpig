@@ -1,197 +1,209 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Открытка для Кидишки 💙</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kidishka 💙</title>
 <style>
-  body {
+  * {
     margin: 0;
-    background: #001233; /* ← тёмно-синий фон */
-    color: white;
-    font-family: "Poppins", sans-serif;
-    overflow: hidden;
-    transition: background 1s ease;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-  .screen {
-    position: absolute;
-    inset: 0;
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #0a0f2c;
+    color: white;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* Главный экран */
+  #main {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    transition: opacity 1s ease;
+    animation: fadeIn 1.2s ease;
   }
 
-  .hidden {
-    opacity: 0;
-    pointer-events: none;
+  .main-img {
+    width: 350px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(255,192,203,0.3);
+    margin-bottom: 25px;
+    transition: transform 0.4s ease;
   }
 
-  .photo {
-    width: 680px;
-    height: 370px;
-    margin-bottom: 30px;
-    background-image: url('us.jpg');
-    background-size: cover;
-    background-position: center;
-    border-radius: 25px;
-    box-shadow: 0 0 40px rgba(0,140,255,0.7);
-    animation: glow 3s ease-in-out infinite;
-  }
-
-  @keyframes glow {
-    0% { box-shadow: 0 0 25px rgba(0,140,255,0.4); }
-    50% { box-shadow: 0 0 60px rgba(0,140,255,1); }
-    100% { box-shadow: 0 0 25px rgba(0,140,255,0.4); }
-  }
-
-  h1 {
-    font-size: 28px;
-    margin: 10px;
-  }
-
-  p {
-    font-size: 16px;
-    max-width: 500px;
-    opacity: 0.9;
-  }
-
-  button {
-    background: linear-gradient(90deg, #00bfff, #0077ff);
-    border: none;
-    padding: 14px 30px;
-    color: white;
-    font-size: 17px;
-    border-radius: 30px;
-    cursor: pointer;
-    margin-top: 40px;
-    transition: transform 0.2s;
-  }
-
-  button:hover {
+  .main-img:hover {
     transform: scale(1.05);
   }
 
-  /* второй экран */
-  .screen2 h2 {
-    font-size: 46px;
-    color: #00bfff;
-    text-shadow: 0 0 25px #00bfff, 0 0 40px #0077ff;
+  button {
+    background-color: #ff66b2;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 25px rgba(255, 102, 178, 0.5);
+  }
+
+  button:hover {
+    background-color: #ff99cc;
+    box-shadow: 0 0 35px rgba(255, 102, 178, 0.8);
+  }
+
+  /* Второй экран */
+  #overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #0a0f2c 0%, #000 100%);
+    color: white;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 100;
+    animation: fadeIn 1s ease forwards;
+    overflow: hidden;
+  }
+
+  #overlay.active {
+    display: flex;
+  }
+
+  #overlay h1 {
+    font-size: 2.8rem;
     margin-bottom: 30px;
-    animation: pulse 2.5s infinite alternate;
+    text-shadow: 0 0 20px #ff66b2, 0 0 40px #ff99cc;
+    animation: glow 2s infinite alternate;
+    z-index: 200;
   }
 
-  @keyframes pulse {
-    0% { transform: scale(1); opacity: 0.9; }
-    100% { transform: scale(1.1); opacity: 1; }
+  .photo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    z-index: 150;
   }
 
-  .screen2 img {
+  #overlay img {
     width: 260px;
-    height: 320px;
+    height: 260px;
     object-fit: cover;
     border-radius: 20px;
-    margin: 10px;
-    box-shadow: 0 0 35px rgba(0,140,255,0.7);
-    animation: float 4s ease-in-out infinite;
+    box-shadow: 0 0 25px rgba(255, 102, 178, 0.4);
+    animation: float 3s ease-in-out infinite;
+  }
+
+  #close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #ff66b2;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 250;
+  }
+
+  #close:hover {
+    background: #ff99cc;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 15px #ff66b2, 0 0 25px #ff99cc; }
+    to { text-shadow: 0 0 40px #ff66b2, 0 0 70px #ff99cc; }
   }
 
   @keyframes float {
-    0%,100% { transform: translateY(0); }
+    0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
   }
 
-  .back {
-    position: absolute;
-    top: 30px;
-    right: 40px;
-    background: transparent;
-    color: white;
-    font-size: 35px;
-    border: none;
-    cursor: pointer;
-    text-shadow: 0 0 10px #00bfff;
-  }
+  /* 📱 Адаптация под мобильные устройства */
+  @media (max-width: 768px) {
+    .main-img {
+      width: 300px;
+      height: 340px;
+    }
 
-  .particles span {
-    position: absolute;
-    background: rgba(0,140,255,0.8);
-    border-radius: 50%;
-    animation: move 8s linear infinite;
-  }
+    #overlay h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
 
-  @keyframes move {
-    0% { transform: translateY(100vh) scale(0.3); opacity: 1; }
-    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    #overlay img {
+      width: 200px;
+      height: 200px;
+    }
+
+    button {
+      font-size: 1rem;
+      padding: 12px 30px;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- экран 1 -->
-<div class="screen screen1" id="screen1">
-  <div class="photo"></div>
-  <h1>Кидишкам ты лучшая 💙</h1>
-  <p>Тусынемгой что часто всякий фигни за наваливается,<br> 
-  просто не забудь то ты правда молодец. Горжусь кой тобой еще как,<br>
-  сендей кыз болмаган и болмайдыда журешкам.<br>
-  Думаю этим сайтом я хоть чуть подниму настроение.<br><br>
-  Я тебя сильно люблю моя милая 💙<br>
-  И всегда буду рядом, чтобы поддержать, выслушать и любить 🫶</p>
-  <button id="nextBtn">Нажми на меня</button>
-</div>
-
-<!-- экран 2 -->
-<div class="screen screen2 hidden" id="screen2">
-  <button class="back" id="backBtn">×</button>
-  <h2>💫 ТЫ МОЯ УМНИЧКА 💫</h2>
-  <div>
-    <img src="ola.png" alt="">
-    <img src="ola_alan.jpg" alt="">
+  <div id="main">
+    <img src="us.jpg" class="main-img" alt="Kidishka">
+    <h1>Кидишкам ты лучшая 💙</h1> <p>Тусынемгой что часто всякий фигни за наваливается,<br> просто не забудь то ты правда молодец. Горжусь кой тобой еще как,<br> сендей кыз болмаган и болмайдыда журешкам.<br> Думаю этим сайтом я хоть чуть подниму настроение.<br><br> Я тебя сильно люблю моя милая 💙<br> И всегда буду рядом, чтобы поддержать, выслушать и любить 🫶</p>
+    <button onclick="showOverlay()">Нажми на меня 💖</button>
   </div>
-</div>
 
-<div class="particles"></div>
+  <div id="overlay">
+    <button id="close" onclick="hideOverlay()">✕</button>
+    <h1>ТЫ МОЯ УМНИЧКА 💫</h1>
+    <div class="photo-container">
+      <img src="ola.png" alt="Photo 1">
+      <img src="ola_alan.jpg" alt="Photo 2">
+    </div>
+  </div>
 
-<!-- музыка -->
-<audio id="bgMusic" loop autoplay>
-  <source src="song.mp3" type="audio/mpeg">
-</audio>
+  <audio autoplay loop>
+    <source src="number_one_girl_rose.mp3" type="audio/mpeg" />
+  </audio>
 
-<script>
-  const s1 = document.getElementById('screen1');
-  const s2 = document.getElementById('screen2');
-  const next = document.getElementById('nextBtn');
-  const back = document.getElementById('backBtn');
-  const particles = document.querySelector('.particles');
+  <script>
+    function showOverlay() {
+      const overlay = document.getElementById("overlay");
+      overlay.classList.add("active");
+    }
 
-  next.onclick = () => {
-    s1.classList.add('hidden');
-    setTimeout(() => s2.classList.remove('hidden'), 600);
-  };
-
-  back.onclick = () => {
-    s2.classList.add('hidden');
-    setTimeout(() => s1.classList.remove('hidden'), 600);
-  };
-
-  // частицы
-  for (let i = 0; i < 40; i++) {
-    const s = document.createElement('span');
-    s.style.width = s.style.height = Math.random() * 6 + 'px';
-    s.style.left = Math.random() * 100 + 'vw';
-    s.style.animationDuration = (5 + Math.random() * 5) + 's';
-    s.style.animationDelay = Math.random() * 5 + 's';
-    particles.appendChild(s);
-  }
-
-  // музыка
-  const music = document.getElementById('bgMusic');
-  music.volume = 0.4;
-</script>
+    function hideOverlay() {
+      const overlay = document.getElementById("overlay");
+      overlay.classList.remove("active");
+    }
+  </script>
 
 </body>
 </html>
